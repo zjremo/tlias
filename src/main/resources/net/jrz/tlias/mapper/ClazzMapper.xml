@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jrz.tlias.mapper.ClazzMapper">
+    <insert id="insert">
+        insert into clazz(name, room, begin_date, end_date, master_id, subject, create_time, update_time)
+        values (#{name}, #{room}, #{beginDate}, #{endDate}, #{masterId}, #{subject}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="update">
+        update clazz
+        <set>
+            <if test="name!=null and name != ''">name=#{name},</if>
+            <if test="room!=null and room != ''">room=#{room},</if>
+            <if test="beginDate!=null">begin_date=#{beginDate},</if>
+            <if test="endDate!=null">end_date=#{endDate},</if>
+            <if test="masterId!=null">master_id=#{masterId},</if>
+            <if test="subject!=null">subject=#{subject},</if>
+            <if test="updateTime!=null">update_time=#{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        delete
+        from clazz
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="page" resultType="net.jrz.tlias.pojo.Clazz">
+        select c.id,
+        c.name,
+        c.room,
+        e.name masterName,
+        c.begin_date,
+        c.end_date,
+        c.update_time,
+        (case when now() &lt; c.begin_date then '未开班' when now() &gt; c.end_date then '已结课' else '在读中' end)
+        status
+        from clazz c
+        left join emp e on c.master_id = e.id
+        <where>
+            <if test="name != null and name != ''">c.name like concat('%', #{name}, '%')</if>
+            <if test="beginDate != null and endDate != null">and c.end_date between #{beginDate} and #{endDate}</if>
+        </where>
+    </select>
+    <select id="getById" resultType="net.jrz.tlias.pojo.Clazz">
+        select c.*,
+               (case c.subject
+                    when 1 then 'java'
+                    when 2 then '前端'
+                    when 3 then '大数据'
+                    when 4 then 'Python'
+                    when 5 then 'Go'
+                    when 6 then '嵌入式' end) subjectName,
+               e.name                         masterName
+        from clazz c
+                 left join emp e on c.master_id = e.id
+        where c.id = #{id};
+    </select>
+    <select id="count" resultType="java.util.Map">
+        select c.id clazzId, count(s.id) count
+        from clazz c
+        left join student s on c.id = s.clazz_id
+        where c.id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        group by c.id order by count
+    </select>
+</mapper>

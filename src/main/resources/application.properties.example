@@ -1,0 +1,31 @@
+spring.application.name=tlias
+
+# datasource and use druid database connection pool
+spring.datasource.druid.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.druid.url=jdbc:mysql://localhost:3306/tlias
+spring.datasource.druid.username=root
+spring.datasource.druid.password=123456
+
+# mybatis configuration
+mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# PageHelper plugin configuration
+# 1. set reasonable param for page and pageSize
+pagehelper.reasonable=true
+# 2. set helper-dialect with mysql
+pagehelper.helper-dialect=mysql
+
+# transaction logger
+logging.level.org.springframework.jdbc.support.JdbcTransactionManager=debug
+
+# change the configuration of max-file_size and max-request-size
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=100MB
+
+# envs configuration
+aliyun.oss.endpoint=https://oss-cn-beijing.aliyuncs.com
+aliyun.oss.bucketName=xxxxxxx
+aliyun.oss.region=cn-beijing
+aliyun.oss.access-key-id=xxxxxxx
+aliyun.oss.access-key-secret=xxxxxxx
