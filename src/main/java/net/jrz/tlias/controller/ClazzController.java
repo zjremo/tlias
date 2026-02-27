@@ -1,6 +1,7 @@
 package net.jrz.tlias.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jrz.tlias.annotation.LogOperation;
 import net.jrz.tlias.exception.DefaultException;
 import net.jrz.tlias.pojo.Clazz;
 import net.jrz.tlias.pojo.ClazzQueryParam;
@@ -26,6 +27,7 @@ public class ClazzController {
         return Result.success(pageResult);
     }
 
+    @LogOperation
     @PostMapping
     public Result save(@RequestBody Clazz clazz){
         log.info("添加班级: {}", clazz);
@@ -34,6 +36,7 @@ public class ClazzController {
     }
 
 
+    @LogOperation
     @GetMapping("/{id}")
     public Result getInfo(@PathVariable Integer id){
        log.info("获取班级信息，id = {}", id);

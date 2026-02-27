@@ -1,8 +1,10 @@
 package net.jrz.tlias.interceptor;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.jrz.tlias.utils.CurrentHolder;
 import net.jrz.tlias.utils.JwtUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -37,7 +39,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         // 5. 解析token，如果解析失败，返回错误结果(未登录)
         try {
-            JwtUtils.parseJwt(jwt);
+            Claims claims = JwtUtils.parseJwt(jwt);
+            Integer empId = Integer.valueOf(claims.get("id").toString());
+            CurrentHolder.setCurrentId(empId);
         } catch (Exception e) {
             e.printStackTrace(System.out);
             log.info("解析令牌失败，返回错误结果");
@@ -54,6 +58,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
         System.out.println("postHandler .... ");
+        CurrentHolder.remove();
     }
 
     // 视图渲染完毕后执行 这个是前后端不分离时采用，但是现在一般都是前后端分离，所以其没啥用

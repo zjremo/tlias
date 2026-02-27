@@ -1,5 +1,6 @@
 package net.jrz.tlias.utils;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -20,8 +21,8 @@ public class JwtUtils {
     /*
     * 解析JWT令牌
     * */
-    public static void parseJwt(String jwt){
-        Jwts.parser().setSigningKey(signKey).parseClaimsJws(jwt).getBody();
+    public static Claims parseJwt(String jwt){
+        return Jwts.parser().setSigningKey(signKey).parseClaimsJws(jwt).getBody();
     }
 
 }

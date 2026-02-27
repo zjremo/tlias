@@ -1,5 +1,7 @@
 package net.jrz.tlias.service.impl;
 
+import net.jrz.tlias.annotation.LogOperation;
+import net.jrz.tlias.annotation.TestOperation;
 import net.jrz.tlias.mapper.DeptMapper;
 import net.jrz.tlias.pojo.Dept;
 import net.jrz.tlias.service.DeptService;
@@ -14,6 +16,7 @@ public class DeptServiceImpl implements DeptService {
     @Autowired
     private DeptMapper deptMapper;
 
+    @TestOperation
     @Override
     public List<Dept> findAll() {
         return deptMapper.findAll();
