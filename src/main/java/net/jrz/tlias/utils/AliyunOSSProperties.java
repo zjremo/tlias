@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties("aliyun.oss")
+@ConfigurationProperties("aliyun.oss") // 加上这个注解, 当前类必须要是springboot中的一个bean对象才能使用, 否则报错
 public class AliyunOSSProperties {
     // Spring中有松散绑定，比如access-key-id会自动映射为accessKeyId
     private String accessKeyId;

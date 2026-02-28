@@ -5,10 +5,21 @@ import lombok.extern.slf4j.Slf4j;
 import net.jrz.tlias.pojo.Dept;
 import net.jrz.tlias.pojo.Result;
 import net.jrz.tlias.service.DeptService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// 默认bean的作用域为单例: singleton
+/*
+* bean的作用域:
+* 1. singleton(单例): 容器中同名称的bean只有一个实例
+* 2. prototype: 每次使用该bean时会创建新的实例
+* 3. request: web环境中，每个请求范围创建新的实例
+* 4. session: web环境中，每个会话范围创建新的实例
+* 5. application: web环境中，每个应用范围创建新的实例
+* */
+//@Scope("prototype")
 @Slf4j
 @RequestMapping("/depts")
 @RestController
